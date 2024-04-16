@@ -17,17 +17,17 @@ void ofApp::setup(){
     urg.setup();
 
     // example: ROI with simple rectangle
-    urg.setRoi(ofRectangle(-500, -2100, 1000, 2000));
+    //urg.setRoi(ofRectangle(-500, -2100, 1000, 2000));
 
     // example: ROI with irregular shape
-    // ofPolyline line;
-    // line.addVertex(-500, -2100);
-    // line.addVertex(550, -2200);
-    // line.addVertex(505, -200);
-    // line.addVertex(-400, -300);
-    // line.addVertex(-600, -1000);
-    // line.close();
-    // urg.setRoi(line);
+    ofPolyline line;
+    line.addVertex(-500, -2100);
+    line.addVertex(550, -2200);
+    line.addVertex(505, -200);
+    line.addVertex(-400, -300);
+    line.addVertex(-600, -1000);
+    line.close();
+    urg.setRoi(line);
 
     urg.start();
 }
@@ -39,7 +39,7 @@ void ofApp::setupOscSender(ofxOscSender& sender, string& oscSendHost, int oscSen
 
 void ofApp::sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp) {
     ofxOscMessage m;
-    m.setAddress("/lidar"); // ssibbi
+    m.setAddress("/lidar"); // ssibi
     
     m.addStringArg(hostName);
     m.addStringArg(sessionId);
@@ -56,23 +56,23 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    urg.drawRadius();
+    //urg.drawRadius();
 
-    vector<ofVec2f> maskPoints = urg.getMaskPoints();
-    urg.drawPoints(maskPoints, 150, ofColor(0,0,0,128), false);
+    //vector<ofVec2f> maskPoints = urg.getMaskPoints();
+    //urg.drawPoints(maskPoints, 150, ofColor(0,0,0,128), false);
 
     vector<ofVec2f> calibrationPoints = urg.getPoints();
-    urg.drawPoints(calibrationPoints, 10, ofColor::azure, false);
+    //urg.drawPoints(calibrationPoints, 10, ofColor::azure, false);
 
     vector<ofVec2f> blobs = urg.getPoints(300);
-    urg.drawPoints(blobs, 100);
+    //urg.drawPoints(blobs, 100);
 
-    int numblobs = blobs.size();
+    //int numblobs = blobs.size();
 
-    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + "fps", 30, 30);
-    ofDrawBitmapStringHighlight(ofToString(numblobs) + " blobs", 30, 50);
+    //ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + "fps", 30, 30);
+    //ofDrawBitmapStringHighlight(ofToString(numblobs) + " blobs", 30, 50);
 
-    vector<ofVec2f> targetPoints = maskPoints;
+    vector<ofVec2f> targetPoints = calibrationPoints;
 
     float z = 0; //col.getBrightness();
     float pointsData[targetPoints.size() * 3]; 
