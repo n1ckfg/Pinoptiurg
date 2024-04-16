@@ -72,13 +72,14 @@ void ofApp::draw(){
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + "fps", 30, 30);
     ofDrawBitmapStringHighlight(ofToString(numblobs) + " blobs", 30, 50);
 
+    vector<ofVec2f> targetPoints = maskPoints;
 
     float z = 0; //col.getBrightness();
-    float pointsData[calibrationPoints.size() * 3]; 
-    for (int j=0; j<calibrationPoints.size(); j++) {
+    float pointsData[targetPoints.size() * 3]; 
+    for (int j=0; j<targetPoints.size(); j++) {
         int index = j * 3;
-        pointsData[index] = calibrationPoints[j].x;
-        pointsData[index+1] = calibrationPoints[j].y;
+        pointsData[index] = targetPoints[j].x;
+        pointsData[index+1] = targetPoints[j].y;
         pointsData[index+2] = z; ///cvPoints[j].z;
     }
     char const * pPoints = reinterpret_cast<char const *>(pointsData);
