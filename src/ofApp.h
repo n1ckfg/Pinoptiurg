@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 #include "ofxURG.h"
+#include "ofxCv.h"
+#include "ofxOsc.h"
+#include "ofxXmlSettings.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,7 +26,15 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	void setupOscSender(ofxOscSender& sender, string& oscSendHost, int oscSendPort);
+	void sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp);
 
 	ofxURG urg;
+
+	string oscHost;
+	int oscPort;
+	ofxXmlSettings settings;
+	ofxOscSender sender;
+ 	ofBuffer lidarPointsBuffer;
 
 };

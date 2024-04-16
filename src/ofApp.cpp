@@ -1,7 +1,19 @@
 #include "ofApp.h"
 
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup(){
+    settings.loadFile("settings.xml");
+    
+    oscHost = settings.getValue("settings:osc_host", "127.0.0.1");
+    oscPort = settings.getValue("settings:osc_port", 7110);
+    setupOscSender(sender, oscHost, oscPort);
+
+    ofSetVerticalSync(false);
+    ofHideCursor();
+
     urg.setup();
 
     // example: ROI with simple rectangle
@@ -18,6 +30,25 @@ void ofApp::setup(){
     // urg.setRoi(line);
 
     urg.start();
+}
+
+void ofApp::setupOscSender(ofxOscSender& sender, string& oscSendHost, int oscSendPort) {
+    sender.setup(oscSendHost, oscSendPort);
+    cout << "\nSending OSC to " << oscSendHost << " on port: " << oscSendPort << endl;
+}
+
+void ofApp::sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp) {
+    ofxOscMessage m;
+    m.setAddress("/lidar"); // ssibbi
+    
+    m.addStringArg(hostName);
+    m.addStringArg(sessionId);
+    m.addIntArg(index);
+    m.addBlobArg(contourColorBuffer);
+    m.addBlobArg(contourPointsBuffer);
+    m.addIntArg(timestamp);
+
+    sender.sendMessage(m);
 }
 
 //--------------------------------------------------------------
@@ -41,6 +72,21 @@ void ofApp::draw(){
 
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + "fps", 30, 30);
     ofDrawBitmapStringHighlight(ofToString(numblobs) + " blobs", 30, 50);
+
+
+    float z = 0; //col.getBrightness();
+    float pointsData[calibrationPoints.size() * 3]; 
+    for (int j=0; j<calibrationPoints.size(); j++) {
+        int index = j * 3;
+        pointsData[index] = calibrationPoints[j].x;
+        pointsData[index+1] = calibrationPoints[j].y;
+        pointsData[index+2] = z; ///cvPoints[j].z;
+    }
+    char const * pPoints = reinterpret_cast<char const *>(pointsData);
+    std::string pointsString(pPoints, pPoints + sizeof pointsData);
+    lidarPointsBuffer.set(pointsString); 
+
+    sendOscLidar(sender, "temp", "temp", 0, lidarPointsBuffer, 0);
 }
 
 //--------------------------------------------------------------
