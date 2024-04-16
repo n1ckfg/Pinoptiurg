@@ -1,1 +1,4 @@
 ofxURG
+ofxCv
+ofxOpenCv
+ofxOsc
