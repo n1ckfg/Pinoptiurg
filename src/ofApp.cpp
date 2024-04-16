@@ -7,6 +7,11 @@ using namespace ofxCv;
 void ofApp::setup(){
     settings.loadFile("settings.xml");
     
+    leftBound = settings.getValue("settings:left_bound", -2000);
+    topBound = settings.getValue("settings:top_bound", -2000);
+    rightBound = settings.getValue("settings:right_bound", 2000);
+    bottomBound = settings.getValue("settings:bottom_bound", 2000);
+
     oscHost = settings.getValue("settings:osc_host", "127.0.0.1");
     oscPort = settings.getValue("settings:osc_port", 7110);
     setupOscSender(sender, oscHost, oscPort);
@@ -17,17 +22,17 @@ void ofApp::setup(){
     urg.setup();
 
     // example: ROI with simple rectangle
-    //urg.setRoi(ofRectangle(-500, -2100, 1000, 2000));
+    urg.setRoi(ofRectangle(leftBound, topBound, rightBound, bottomBound));
 
     // example: ROI with irregular shape
-    ofPolyline line;
-    line.addVertex(-500, -2100);
-    line.addVertex(550, -2200);
-    line.addVertex(505, -200);
-    line.addVertex(-400, -300);
-    line.addVertex(-600, -1000);
-    line.close();
-    urg.setRoi(line);
+    //ofPolyline line;
+    //line.addVertex(-500, -2100);
+    //line.addVertex(550, -2200);
+    //line.addVertex(505, -200);
+    //line.addVertex(-400, -300);
+    //line.addVertex(-600, -1000);
+    //line.close();
+    //urg.setRoi(line);
 
     urg.start();
 }

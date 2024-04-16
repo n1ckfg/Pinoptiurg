@@ -30,6 +30,7 @@ public:
 	void sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp);
 
 	ofxURG urg;
+	int leftBound, topBound, rightBound, bottomBound;
 
 	string oscHost;
 	int oscPort;
