@@ -44,8 +44,7 @@ void ofApp::sendOscLidar(ofxOscSender& sender, string hostName, string sessionId
     m.addStringArg(hostName);
     m.addStringArg(sessionId);
     m.addIntArg(index);
-    m.addBlobArg(contourColorBuffer);
-    m.addBlobArg(contourPointsBuffer);
+    m.addBlobArg(lidarPointsBuffer);
     m.addIntArg(timestamp);
 
     sender.sendMessage(m);
