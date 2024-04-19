@@ -28,6 +28,8 @@ public:
 
 	void setupOscSender(ofxOscSender& sender, string& oscSendHost, int oscSendPort);
 	void sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp);
+	
+	float remap(float value, float min1, float max1, float min2, float max2);
 
 	ofxURG urg;
 	int leftBound, topBound, rightBound, bottomBound;
@@ -37,5 +39,6 @@ public:
 	ofxXmlSettings settings;
 	ofxOscSender sender;
  	ofBuffer lidarPointsBuffer;
+ 	float minDistance, maxDistance;
 
 };
