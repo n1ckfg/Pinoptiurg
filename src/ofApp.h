@@ -30,6 +30,7 @@ public:
 	void sendOscLidar(ofxOscSender& sender, string hostName, string sessionId, int index, ofBuffer& lidarPointsBuffer, int timestamp);
 	
 	float remap(float value, float min1, float max1, float min2, float max2);
+	vector<float> resampleFloatArray(const vector<float>& input);
 
 	ofxURG urg;
 	int leftBound, topBound, rightBound, bottomBound;

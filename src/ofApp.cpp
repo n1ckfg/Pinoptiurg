@@ -4,7 +4,7 @@ using namespace cv;
 using namespace ofxCv;
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
     settings.loadFile("settings.xml");
     
     leftBound = settings.getValue("settings:left_bound", -2000);
@@ -46,6 +46,28 @@ float ofApp::remap(float value, float min1, float max1, float min2, float max2) 
     return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
 }
 
+vector<float> ofApp::resampleFloatArray(const vector<float>& input) {
+    vector<float> output(256);
+    
+    if (input.empty()) return output;
+    
+    float step = static_cast<float>(input.size() - 1) / 255.0f;
+    
+    for (int i = 0; i < 256; i++) {
+        float pos = i * step;
+        int index = static_cast<int>(pos);
+        float t = pos - index;
+        
+        if (index >= input.size() - 1) {
+            output[i] = input.back();
+        } else {
+            output[i] = ofLerp(input[index], input[index + 1], t);
+        }
+    }
+    
+    return output;
+}
+
 void ofApp::setupOscSender(ofxOscSender& sender, string& oscSendHost, int oscSendPort) {
     sender.setup(oscSendHost, oscSendPort);
     cout << "\nSending OSC to " << oscSendHost << " on port: " << oscSendPort << endl;
@@ -65,11 +87,11 @@ void ofApp::sendOscLidar(ofxOscSender& sender, string hostName, string sessionId
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
     //urg.drawRadius();
 
     //vector<ofVec2f> maskPoints = urg.getMaskPoints();
@@ -102,62 +124,62 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key) {
     if (key == ' ') {
         urg.calibrateMask(150); // set 15cm tolerance
     }
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y ) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
-void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY){
+void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
 	urg.setDrawZoom(urg.getDrawZoom()+scrollY*.05);
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseEntered(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseExited(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
+void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }
