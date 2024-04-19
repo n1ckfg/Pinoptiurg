@@ -110,7 +110,8 @@ void ofApp::draw() {
 
     //vector<ofVec2f> targetPoints = calibrationPoints;
     
-    vector<float> distances = urg.getDistances(false);
+    vector<float> origDistances = urg.getDistances(false);
+    vector<float> distances = resampleFloatArray(origDistances, 256);
 
     float pointsData[distances.size()]; 
     for (int j=0; j<distances.size(); j++) {
