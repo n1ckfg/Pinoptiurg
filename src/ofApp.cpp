@@ -46,14 +46,14 @@ float ofApp::remap(float value, float min1, float max1, float min2, float max2) 
     return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
 }
 
-vector<float> ofApp::resampleFloatArray(const vector<float>& input) {
-    vector<float> output(256);
+vector<float> ofApp::resampleFloatArray(const vector<float>& input, int outputLength) {
+    vector<float> output(outputLength);
     
     if (input.empty()) return output;
     
-    float step = static_cast<float>(input.size() - 1) / 255.0f;
+    float step = static_cast<float>((input.size() - 1) / (outputLength - 1));
     
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < outputLength; i++) {
         float pos = i * step;
         int index = static_cast<int>(pos);
         float t = pos - index;
