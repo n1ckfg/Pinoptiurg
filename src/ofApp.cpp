@@ -79,7 +79,7 @@ void ofApp::draw(){
 
     //vector<ofVec2f> targetPoints = calibrationPoints;
     
-    vector<float> distances = urg.getDistances();
+    vector<float> distances = urg.getDistances(false);
 
     float pointsData[distances.size()]; 
     for (int j=0; j<distances.size(); j++) {
