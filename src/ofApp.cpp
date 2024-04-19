@@ -22,7 +22,7 @@ void ofApp::setup(){
     urg.setup();
 
     // example: ROI with simple rectangle
-    urg.setRoi(ofRectangle(leftBound, topBound, rightBound, bottomBound));
+    //urg.setRoi(ofRectangle(leftBound, topBound, rightBound, bottomBound));
 
     // example: ROI with irregular shape
     //ofPolyline line;
@@ -66,10 +66,10 @@ void ofApp::draw(){
     //vector<ofVec2f> maskPoints = urg.getMaskPoints();
     //urg.drawPoints(maskPoints, 150, ofColor(0,0,0,128), false);
 
-    vector<ofVec2f> calibrationPoints = urg.getPoints();
+    //vector<ofVec2f> calibrationPoints = urg.getPoints();
     //urg.drawPoints(calibrationPoints, 10, ofColor::azure, false);
 
-    vector<ofVec2f> blobs = urg.getPoints(300);
+    //vector<ofVec2f> blobs = urg.getPoints(300);
     //urg.drawPoints(blobs, 100);
 
     //int numblobs = blobs.size();
@@ -77,15 +77,13 @@ void ofApp::draw(){
     //ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + "fps", 30, 30);
     //ofDrawBitmapStringHighlight(ofToString(numblobs) + " blobs", 30, 50);
 
-    vector<ofVec2f> targetPoints = calibrationPoints;
+    //vector<ofVec2f> targetPoints = calibrationPoints;
+    
+    vector<float> distances = urg.getDistances();
 
-    float z = 0; //col.getBrightness();
-    float pointsData[targetPoints.size() * 3]; 
-    for (int j=0; j<targetPoints.size(); j++) {
-        int index = j * 3;
-        pointsData[index] = targetPoints[j].x;
-        pointsData[index+1] = targetPoints[j].y;
-        pointsData[index+2] = z; ///cvPoints[j].z;
+    float pointsData[distances.size()]; 
+    for (int j=0; j<distances.size(); j++) {
+        pointsData[j] = distances[j];
     }
     char const * pPoints = reinterpret_cast<char const *>(pointsData);
     std::string pointsString(pPoints, pPoints + sizeof pointsData);
