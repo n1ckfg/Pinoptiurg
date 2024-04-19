@@ -38,7 +38,7 @@ void ofApp::setup(){
 
     ofVec2f distanceBounds = urg.getDistanceBounds();
     minDistance = distanceBounds.x;
-    maxDistance = distanceBOunds.y;
+    maxDistance = distanceBounds.y;
 }
 
 
